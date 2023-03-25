@@ -18,7 +18,7 @@ function App() {
             <TrendingMovies></TrendingMovies>
           </>
         }></Route>
-        <Route path="/fav" element={
+        <Route path="/favourite" element={
           <>
             <Favourites></Favourites>
           </>
