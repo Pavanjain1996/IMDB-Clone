@@ -17,7 +17,7 @@ function Banner() {
         bannerMovie === "" ? <div className='flex justify-center'>
           <Audio height="80" width="80" radius="9" color="gray" secondaryColor="gray" ariaLabel="loading"/>
         </div> : 
-        <div className='h-[60vh] md:h-[70vh] bg-center bg-cover flex items-end' style={{backgroundImage: `url(https://image.tmdb.org/t/p/original/${bannerMovie.backdrop_path})`}}>
+        <div className='h-[60vh] md:h-[70vh] lg:h-[80vh] bg-center bg-cover flex items-end' style={{backgroundImage: `url(https://image.tmdb.org/t/p/original/${bannerMovie.backdrop_path})`}}>
           <div className='text-xl md:text-2xl text-white text-center font-bold bg-gray-900 p-4 bg-opacity-50 w-[100%]'>{bannerMovie.title}</div>
         </div>
       }

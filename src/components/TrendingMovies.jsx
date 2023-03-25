@@ -15,6 +15,7 @@ function TrendingMovies() {
       setPageNum(pageNum+1);
     }
   }
+
   let [trendingMovies, setTrendingMovies] = useState([]);
   useEffect(() => {
     (function(){
@@ -23,7 +24,15 @@ function TrendingMovies() {
       })
     })()
   }, [pageNum])
-  
+
+  let [hovered, setHovered] = useState("");
+  const showEmoji = (id) => {
+    setHovered(id);
+  }
+  const hideEmoji = () => {
+    setHovered("");
+  }
+
   return (
     <div>
       <div className='text-center font-bold text-2xl p-6 text-red-500'>Trending Movies</div>
@@ -32,8 +41,19 @@ function TrendingMovies() {
           <Audio height="80" width="80" radius="9" color="gray" secondaryColor="gray" ariaLabel="loading"/>
         </div> : 
         trendingMovies.map((movie) => {
-          return <div key={movie.id} className='bg-center bg-cover w-[160px] h-[30vh] md:w-[180px] md:h-[40vh] m-4 rounded-xl hover:scale-110 flex items-end'
+          return <div key={movie.id} 
+                  onMouseOver={()=>{
+                    showEmoji(movie.id)
+                  }}
+                  onMouseOut={()=>{
+                    hideEmoji()
+                  }}
+                  className='bg-center bg-cover w-[160px] h-[30vh] md:w-[180px] md:h-[40vh] m-4 rounded-xl hover:scale-110 flex items-end relative'
                   style={{backgroundImage: `url(https://image.tmdb.org/t/p/w500/${movie.poster_path})`}}>
+                  <div className='p-1 bg-gray-900 rounded-xl absolute right-2 top-2'
+                      style={{display:hovered===movie.id?'block':'none'}}>
+                    <div className='text-2xl'>😍</div>
+                  </div>
                   <div className='text-white text-center font-bold bg-gray-900 p-1 bg-opacity-90 w-[100%] rounded-b-xl'>{movie.title !== undefined ? movie.title : movie.name}</div>
         </div>
         })
