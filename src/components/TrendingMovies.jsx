@@ -33,13 +33,24 @@ function TrendingMovies() {
     setHovered("");
   }
 
-  let [favs, setFavs] = useState([]);
-  const addMovieToFavs = (movie) => {
-    let movies = [...favs, movie];
+  let favMovies = [];
+  if (localStorage.getItem("favMovies") === null) {
+    favMovies = [];
+  }
+  else {
+    favMovies = JSON.parse(localStorage.getItem("favMovies"))
+  }
+  let [favs, setFavs] = useState(favMovies);
+  useEffect(() => {
+    localStorage.setItem('favMovies', JSON.stringify(favs));
+  }, [favs])
+  console.log(favs.length);
+  const addMovieToFavs = (id) => {
+    let movies = [...favs, id];
     setFavs(movies);
   }
-  const removeMovieFromFavs = (movie) => {
-    let newset = favs.filter((movie_item)=> {return movie_item!==movie});
+  const removeMovieFromFavs = (id) => {
+    let newset = favs.filter((movie_id)=> {return movie_id!==id});
     setFavs(newset);
   }
 
@@ -62,7 +73,7 @@ function TrendingMovies() {
                   style={{backgroundImage: `url(https://image.tmdb.org/t/p/w500/${movie.poster_path})`}}>
                   <div className='p-1 bg-gray-900 rounded-xl absolute right-2 top-2'
                       style={{display:hovered===movie.id?'block':'none'}}>
-                    {favs.includes(movie) === true ? <div className='text-2xl' onClick={()=>{removeMovieFromFavs(movie)}}>❌</div> : <div className='text-2xl' onClick={()=>{addMovieToFavs(movie)}}>😍</div>}
+                    {favs.includes(movie.id) === true ? <div className='text-2xl' onClick={()=>{removeMovieFromFavs(movie.id)}}>❌</div> : <div className='text-2xl' onClick={()=>{addMovieToFavs(movie.id)}}>😍</div>}
                   </div>
                   <div className='text-white text-center font-bold bg-gray-900 p-1 bg-opacity-90 w-[100%] rounded-b-xl'>{movie.title !== undefined ? movie.title : movie.name}</div>
         </div>
