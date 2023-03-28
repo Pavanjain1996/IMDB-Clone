@@ -40,11 +40,11 @@ function TrendingMovies() {
   else {
     favMovies = JSON.parse(localStorage.getItem("favMovies"))
   }
+
   let [favs, setFavs] = useState(favMovies);
   useEffect(() => {
     localStorage.setItem('favMovies', JSON.stringify(favs));
   }, [favs])
-  console.log(favs.length);
   const addMovieToFavs = (id) => {
     let movies = [...favs, id];
     setFavs(movies);
