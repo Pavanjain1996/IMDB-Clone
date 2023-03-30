@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "./Pagination";
+import axios from "axios";
 
 function Favourites() {
   let favMovieIds = [];
@@ -34,6 +35,14 @@ function Favourites() {
     setFavouriteMovies(newset);
   }
 
+  let [genre, setGenre] = useState([]);
+  useEffect(() => {
+    (function(){
+      axios.get("https://api.themoviedb.org/3/genre/movie/list?api_key=13cf82512e78f27808142958d5d4f8f6").then((res) => {
+        setGenre(res.data.genres);
+      })
+    })()
+  }, [])
   return (
     <>
       <div className="m-6 flex justify-center space-x-2">
@@ -56,8 +65,8 @@ function Favourites() {
         <input
           type="number"
           min="1"
-          max="20000"
-          value={favs.length}
+          max={favs.length}
+          defaultValue={favs.length}
           className="border-2 text-center"
         />
       </div>
@@ -121,11 +130,15 @@ function Favourites() {
           <tbody className="divide-y divide-gray-100 border-t border-gray-100">
             {
               favoriteMovies.map((movie) => {
-                return <Row id={movie.id} 
+                return <Row key={movie.id}
+                            id={movie.id} 
                             name={movie.title !== undefined ? movie.title : movie.name}
                             poster={movie.backdrop_path}
                             ratings={movie.vote_average}
                             popularity={movie.popularity}
+                            genre={genre.length !== 0 ? genre.filter((g) => {
+                              return g.id === movie.genre_ids[0]
+                            })[0].name : ""}
                             remove={removeMovieFromFavs}>
                         </Row>
               })
@@ -156,14 +169,10 @@ function Row(props) {
         <td className="px-6 py-4 text-center font-bold">{props.ratings}</td>
         <td className="px-6 py-4 text-center font-bold">{props.popularity}</td>
         <td className="px-6 py-4 text-center">
-          <span className="inline-flex items-center gap-1 rounded-full bg-green-300 px-2 py-1 text-xs font-semibold text-black">
-            All Genre
-          </span>
+          <span className="inline-flex items-center gap-1 rounded-full bg-green-300 px-2 py-1 text-xs font-semibold text-black">{props.genre}</span>
         </td>
         <td className="px-6 py-4 text-center">
-          <button className="inline-flex items-center gap-1 rounded-full bg-gray-300 px-2 py-1 text-xs font-semibold text-red-700" onClick={() => props.remove(props.id)}>
-            Delete
-          </button>
+          <button className="inline-flex items-center gap-1 rounded-full bg-gray-300 px-2 py-1 text-xs font-semibold text-red-700" onClick={() => props.remove(props.id)}>Delete</button>
         </td>
       </tr>
     </>
