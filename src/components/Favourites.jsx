@@ -161,10 +161,7 @@ function Row(props) {
             src={`https://image.tmdb.org/t/p/w500/${props.poster}`}
             alt=""
           />
-          <span className="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
-          <div className="text-sm">
-            <div className="font-medium text-gray-700">{props.name}</div>
-          </div>
+          <div className="font-medium text-gray-700 text-sm">{props.name}</div>
         </th>
         <td className="px-6 py-4 text-center font-bold">{props.ratings}</td>
         <td className="px-6 py-4 text-center font-bold">{props.popularity}</td>
