@@ -43,6 +43,27 @@ function Favourites() {
       })
     })()
   }, [])
+
+  let [itemperpage, setItemperpage] = useState(favs.length);
+  let [maxpages, setMaxpages] = useState(1);
+  const updatepagevals = (e) =>{
+    setItemperpage(e.target.value);
+    let pages = Math.ceil(favs.length/e.target.value);
+    setMaxpages(pages);
+    setPageno(1);
+  }
+  console.log(maxpages);
+  let [pageno, setPageno] = useState(1);
+  const onNext = () => {
+    if(pageno < maxpages){
+      setPageno(pageno+1);
+    }
+  }
+  const onPrev = () => {
+    if(pageno > 1){
+      setPageno(pageno-1);
+    }
+  }
   return (
     <>
       <div className="m-6 flex justify-center space-x-2">
@@ -66,7 +87,8 @@ function Favourites() {
           type="number"
           min="1"
           max={favs.length}
-          defaultValue={favs.length}
+          value={itemperpage}
+          onChange={updatepagevals}
           className="border-2 text-center"
         />
       </div>
@@ -129,7 +151,7 @@ function Favourites() {
           </thead>
           <tbody className="divide-y divide-gray-100 border-t border-gray-100">
             {
-              favoriteMovies.map((movie) => {
+              favoriteMovies.slice((pageno-1)*itemperpage, pageno*itemperpage).map((movie) => {
                 return <Row key={movie.id}
                             id={movie.id} 
                             name={movie.title !== undefined ? movie.title : movie.name}
@@ -146,7 +168,7 @@ function Favourites() {
           </tbody>
         </table>
       </div>
-      <Pagination></Pagination>
+      <Pagination pageNum={pageno} onPrev={onPrev} onNext={onNext}></Pagination>
     </>
   );
 }
