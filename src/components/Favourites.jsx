@@ -17,7 +17,6 @@ function Favourites() {
   else {
     favMovies = JSON.parse(localStorage.getItem("favMovies"))
   }
-
   let [favs, setFavs] = useState(favMovieIds);
   useEffect(() => {
     localStorage.setItem('favMovieIds', JSON.stringify(favs));
@@ -27,12 +26,12 @@ function Favourites() {
   useEffect(() => {
     localStorage.setItem('favMovies', JSON.stringify(favoriteMovies));
   }, [favoriteMovies])
-
   const removeMovieFromFavs = (id) => {
     let newset = favs.filter((movie_id) => {return movie_id!==id});
     setFavs(newset);
     newset = favoriteMovies.filter((movie) => {return movie.id!==id});
     setFavouriteMovies(newset);
+    setItemperpage(favs.length-1);
   }
 
   let [genre, setGenre] = useState([]);
@@ -52,7 +51,6 @@ function Favourites() {
     setMaxpages(pages);
     setPageno(Math.min(pageno, pages));
   }
-  console.log(maxpages);
   let [pageno, setPageno] = useState(1);
   const onNext = () => {
     if(pageno < maxpages){
