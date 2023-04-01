@@ -50,7 +50,7 @@ function Favourites() {
     setItemperpage(e.target.value);
     let pages = Math.ceil(favs.length/e.target.value);
     setMaxpages(pages);
-    setPageno(1);
+    setPageno(Math.min(pageno, pages));
   }
   console.log(maxpages);
   let [pageno, setPageno] = useState(1);
@@ -67,15 +67,9 @@ function Favourites() {
   return (
     <>
       <div className="m-6 flex justify-center space-x-2">
-        <button className="p-2 bg-red-500 rounded-xl text-white text-xl">
-          All Genres
-        </button>
-        <button className="p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl">
-          Sci-Fi
-        </button>
-        <button className="p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl">
-          Action
-        </button>
+        <button className="p-2 bg-red-500 rounded-xl text-white text-xl">All Genres</button>
+        <button className="p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl">Sci-Fi</button>
+        <button className="p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl">Action</button>
       </div>
       <div className="m-6 flex justify-center space-x-2">
         <input
