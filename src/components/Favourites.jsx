@@ -51,6 +51,7 @@ function Favourites() {
     setMaxpages(pages);
     setPageno(Math.min(pageno, pages));
   }
+
   let [pageno, setPageno] = useState(1);
   const onNext = () => {
     if(pageno < maxpages){
@@ -62,6 +63,18 @@ function Favourites() {
       setPageno(pageno-1);
     }
   }
+
+  let [searchText, setSearchText] = useState("");
+  let [filtered, setFiltered] = useState(favoriteMovies.filter((movie) => {return movie.title !== undefined ? movie.title.toLowerCase().includes(searchText.toLowerCase()) : movie.name.toLowerCase().includes(searchText.toLowerCase())}))
+  const updateFiltered = (e) => {
+    setSearchText(e.target.value);
+    let f = favoriteMovies.filter((movie) => {return movie.title !== undefined ? movie.title.toLowerCase().includes(e.target.value.toLowerCase()) : movie.name.toLowerCase().includes(e.target.value.toLowerCase())})
+    setFiltered(f);
+    setItemperpage(f.length);
+    setMaxpages(1);
+    setPageno(1);
+  }
+
   return (
     <>
       <div className="m-6 flex justify-center space-x-2">
@@ -74,6 +87,8 @@ function Favourites() {
           type="text"
           placeholder="Search..."
           className="border-2 text-center"
+          value={searchText}
+          onChange={updateFiltered}
         />
         <input
           type="number"
@@ -143,7 +158,7 @@ function Favourites() {
           </thead>
           <tbody className="divide-y divide-gray-100 border-t border-gray-100">
             {
-              favoriteMovies.slice((pageno-1)*itemperpage, pageno*itemperpage).map((movie) => {
+              filtered.slice((pageno-1)*itemperpage, pageno*itemperpage).map((movie) => {
                 return <Row key={movie.id}
                             id={movie.id} 
                             name={movie.title !== undefined ? movie.title : movie.name}
