@@ -47,7 +47,7 @@ function Favourites() {
   let [maxpages, setMaxpages] = useState(1);
   const updatepagevals = (e) =>{
     setItemperpage(e.target.value);
-    let pages = Math.ceil(favs.length/e.target.value);
+    let pages = Math.ceil(filtered.length/e.target.value);
     setMaxpages(pages);
     setPageno(Math.min(pageno, pages));
   }
@@ -93,7 +93,7 @@ function Favourites() {
         <input
           type="number"
           min="1"
-          max={favs.length}
+          max={filtered.length}
           value={itemperpage}
           onChange={updatepagevals}
           className="border-2 text-center"
