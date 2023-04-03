@@ -66,12 +66,25 @@ function Favourites() {
     setPageno(1);
   }
 
+  let [selectedButton, setSelectedButton] = useState("All Genres");
+  const updateButton = (e) => {
+    setSearchText("");
+    setSelectedButton(e.target.value);
+    let f = e.target.value === "All Genres" ? favoriteMovies : favoriteMovies.filter((movie) => {return movie.genre.toLowerCase() === e.target.value.toLowerCase()});
+    setFiltered(f);
+    setItemperpage(f.length);
+    setMaxpages(1);
+    setPageno(1);
+  }
   return (
     <>
       <div className="m-6 flex justify-center space-x-2">
-        <button className="p-2 bg-red-500 rounded-xl text-white text-xl">All Genres</button>
-        <button className="p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl">Sci-Fi</button>
-        <button className="p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl">Action</button>
+        <button className={selectedButton === "All Genres" ? "p-2 bg-red-500 rounded-xl text-white text-xl" : "p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl"} value="All Genres" onClick={updateButton}>All Genres</button>
+        <button className={selectedButton === "Science Fiction" ? "p-2 bg-red-500 rounded-xl text-white text-xl" : "p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl"} value="Science Fiction" onClick={updateButton}>Sci-Fi</button>
+        <button className={selectedButton === "Action" ? "p-2 bg-red-500 rounded-xl text-white text-xl" : "p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl"} value="Action" onClick={updateButton}>Action</button>
+        <button className={selectedButton === "Drama" ? "p-2 bg-red-500 rounded-xl text-white text-xl" : "p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl"} value="Drama" onClick={updateButton}>Drama</button>
+        <button className={selectedButton === "Comedy" ? "p-2 bg-red-500 rounded-xl text-white text-xl" : "p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl"} value="Comedy" onClick={updateButton}>Comedy</button>
+        <button className={selectedButton === "Adventure" ? "p-2 bg-red-500 rounded-xl text-white text-xl" : "p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl"} value="Adventure" onClick={updateButton}>Adventure</button>
       </div>
       <div className="m-6 flex justify-center space-x-2">
         <input
