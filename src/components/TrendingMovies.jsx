@@ -4,6 +4,15 @@ import { Audio } from 'react-loader-spinner';
 import Pagination from './Pagination';
 
 function TrendingMovies() {
+  let [genre, setGenre] = useState([]);
+  useEffect(() => {
+    (function(){
+      axios.get("https://api.themoviedb.org/3/genre/movie/list?api_key=13cf82512e78f27808142958d5d4f8f6").then((res) => {
+        setGenre(res.data.genres);
+      })
+    })()
+  }, [])
+
   let [pageNum, setPageNum] = useState(1);
   const onPrev = () => {
     if(pageNum > 1){
@@ -60,6 +69,8 @@ function TrendingMovies() {
   const addMovieToFavs = (movie) => {
     let movies = [...favs, movie.id];
     setFavs(movies);
+    let arr = genre.filter((g) => {return g.id === movie.genre_ids[0]});
+    movie['genre'] = arr.length !== 0 ? arr[0].name : ""
     movies = [...favoriteMovies, movie];
     setFavouriteMovies(movies);
   }

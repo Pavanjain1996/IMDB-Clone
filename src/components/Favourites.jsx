@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "./Pagination";
-import axios from "axios";
 
 function Favourites() {
   let favMovieIds = [];
@@ -31,17 +30,9 @@ function Favourites() {
     setFavs(newset);
     newset = favoriteMovies.filter((movie) => {return movie.id!==id});
     setFavouriteMovies(newset);
+    setFiltered(newset);
     setItemperpage(favs.length-1);
   }
-
-  let [genre, setGenre] = useState([]);
-  useEffect(() => {
-    (function(){
-      axios.get("https://api.themoviedb.org/3/genre/movie/list?api_key=13cf82512e78f27808142958d5d4f8f6").then((res) => {
-        setGenre(res.data.genres);
-      })
-    })()
-  }, [])
 
   let [itemperpage, setItemperpage] = useState(favs.length);
   let [maxpages, setMaxpages] = useState(1);
@@ -165,9 +156,7 @@ function Favourites() {
                             poster={movie.backdrop_path}
                             ratings={movie.vote_average}
                             popularity={movie.popularity}
-                            genre={genre.length !== 0 ? genre.filter((g) => {
-                              return g.id === movie.genre_ids[0]
-                            })[0].name : ""}
+                            genre={movie.genre}
                             remove={removeMovieFromFavs}>
                         </Row>
               })
