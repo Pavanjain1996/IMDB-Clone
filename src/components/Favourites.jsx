@@ -59,6 +59,7 @@ function Favourites() {
   let [filtered, setFiltered] = useState(favoriteMovies.filter((movie) => {return movie.title !== undefined ? movie.title.toLowerCase().includes(searchText.toLowerCase()) : movie.name.toLowerCase().includes(searchText.toLowerCase())}))
   const updateFiltered = (e) => {
     setSearchText(e.target.value);
+    setSelectedButton("All Genres");
     let f = favoriteMovies.filter((movie) => {return movie.title !== undefined ? movie.title.toLowerCase().includes(e.target.value.toLowerCase()) : movie.name.toLowerCase().includes(e.target.value.toLowerCase())})
     setFiltered(f);
     setItemperpage(f.length);
