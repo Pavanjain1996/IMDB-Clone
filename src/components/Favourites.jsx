@@ -61,6 +61,8 @@ function Favourites() {
   const updateFilterByText = (e) => {
     setSearchText(e.target.value);
     setSelectedButton("All Genres");
+    setPopularSort("down");
+    setRatingSort("down");
     let f = favoriteMovies.filter((movie) => {return movie.title !== undefined ? movie.title.toLowerCase().includes(e.target.value.toLowerCase()) : movie.name.toLowerCase().includes(e.target.value.toLowerCase())})
     setFiltered(f);
     setItemperpage(f.length);
@@ -72,12 +74,41 @@ function Favourites() {
   const updateFilterByButton = (e) => {
     setSearchText("");
     setSelectedButton(e.target.value);
+    setPopularSort("down");
+    setRatingSort("down");
     let f = e.target.value === "All Genres" ? favoriteMovies : favoriteMovies.filter((movie) => {return movie.genre.toLowerCase() === e.target.value.toLowerCase()});
     setFiltered(f);
     setItemperpage(f.length);
     setMaxpages(1);
     setPageno(1);
   }
+  
+  let [ratingSort, setRatingSort] = useState("down");
+  const updateFilterByRating = () => {
+    setSearchText("");
+    setSelectedButton("All Genres");
+    setPopularSort("down");
+    setRatingSort(ratingSort === "down" ? "up" : "down");
+    let f = ratingSort === "down" ? favoriteMovies.sort((a,b) => {return b.vote_average - a.vote_average}) : favoriteMovies.sort((a,b) => {return a.vote_average - b.vote_average})
+    setFiltered(f);
+    setItemperpage(f.length);
+    setMaxpages(1);
+    setPageno(1);
+  }
+
+  let [popularSort, setPopularSort] = useState("down");
+  const updateFilterByPopular = () => {
+    setSearchText("");
+    setSelectedButton("All Genres");
+    setPopularSort(popularSort === "down" ? "up" : "down");
+    setRatingSort("down");
+    let f = popularSort === "down" ? favoriteMovies.sort((a,b) => {return b.popularity - a.popularity}) : favoriteMovies.sort((a,b) => {return a.popularity - b.popularity})
+    setFiltered(f);
+    setItemperpage(f.length);
+    setMaxpages(1);
+    setPageno(1);
+  }
+
   return (
     <>
       <div className="m-6 flex justify-center space-x-2">
@@ -114,48 +145,30 @@ function Favourites() {
               </th>
               <th scope="col" className="px-6 py-4 font-medium text-gray-900">
                 <div className="flex justify-center items-center">
-                  <img
-                    src="https://img.icons8.com/external-those-icons-lineal-those-icons/24/000000/external-up-arrows-those-icons-lineal-those-icons-3.png"
-                    alt="Arrow Icon"
-                    className="mr-2 cursor-pointer"
-                  ></img>
                   <div>Ratings</div>
                   <img
-                    src="https://img.icons8.com/external-those-icons-lineal-those-icons/24/000000/external-down-arrows-those-icons-lineal-those-icons-4.png"
+                    src={ratingSort === "up" ? "https://img.icons8.com/external-those-icons-lineal-those-icons/24/000000/external-up-arrows-those-icons-lineal-those-icons-3.png" : 
+                                    "https://img.icons8.com/external-those-icons-lineal-those-icons/24/000000/external-down-arrows-those-icons-lineal-those-icons-4.png"}
                     alt="Arrow Icon"
-                    className="ml-2 mr-2"
+                    className="m-2 cursor-pointer"
+                    onClick={updateFilterByRating}
                   ></img>
                 </div>
               </th>
               <th scope="col" className="px-6 py-4 font-medium text-gray-900">
                 <div className="flex justify-center items-center">
-                  <img
-                    src="https://img.icons8.com/external-those-icons-lineal-those-icons/24/000000/external-up-arrows-those-icons-lineal-those-icons-3.png"
-                    alt="Arrow Icon"
-                    className="mr-2 cursor-pointer"
-                  ></img>
                   <div>Popularity</div>
                   <img
-                    src="https://img.icons8.com/external-those-icons-lineal-those-icons/24/000000/external-down-arrows-those-icons-lineal-those-icons-4.png"
+                    src={popularSort === "up" ? "https://img.icons8.com/external-those-icons-lineal-those-icons/24/000000/external-up-arrows-those-icons-lineal-those-icons-3.png" : 
+                    "https://img.icons8.com/external-those-icons-lineal-those-icons/24/000000/external-down-arrows-those-icons-lineal-those-icons-4.png"}
                     alt="Arrow Icon"
-                    className="ml-2 mr-2"
+                    className="m-2 cursor-pointer"
+                    onClick={updateFilterByPopular}
                   ></img>
                 </div>
               </th>
               <th scope="col" className="px-6 py-4 font-medium text-gray-900">
-                <div className="flex justify-center items-center">
-                  <img
-                    src="https://img.icons8.com/external-those-icons-lineal-those-icons/24/000000/external-up-arrows-those-icons-lineal-those-icons-3.png"
-                    alt="Arrow Icon"
-                    className="mr-2 cursor-pointer"
-                  ></img>
-                  <div>Genre</div>
-                  <img
-                    src="https://img.icons8.com/external-those-icons-lineal-those-icons/24/000000/external-down-arrows-those-icons-lineal-those-icons-4.png"
-                    alt="Arrow Icon"
-                    className="ml-2 mr-2"
-                  ></img>
-                </div>
+                <div className="flex justify-center items-center">Genre</div>
               </th>
               <th scope="col" className="px-6 py-4 font-medium text-gray-900">
                 <div className="flex justify-center items-center">Remove</div>
