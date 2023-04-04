@@ -136,7 +136,7 @@ function Favourites() {
           className="border-2 text-center"
         />
       </div>
-      <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
+      <div className="overflow-x-scroll rounded-lg border border-gray-200 shadow-md m-5">
         <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
           <thead className="bg-gray-50">
             <tr>
