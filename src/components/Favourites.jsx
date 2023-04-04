@@ -111,7 +111,7 @@ function Favourites() {
 
   return (
     <>
-      <div className="m-6 flex justify-center space-x-2">
+      <div className="m-6 flex-wrap justify-center space-x-2 space-y-2">
         <button className={selectedButton === "All Genres" ? "p-2 bg-red-500 rounded-xl text-white text-xl" : "p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl"} value="All Genres" onClick={updateFilterByButton}>All Genres</button>
         <button className={selectedButton === "Science Fiction" ? "p-2 bg-red-500 rounded-xl text-white text-xl" : "p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl"} value="Science Fiction" onClick={updateFilterByButton}>Sci-Fi</button>
         <button className={selectedButton === "Action" ? "p-2 bg-red-500 rounded-xl text-white text-xl" : "p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl"} value="Action" onClick={updateFilterByButton}>Action</button>
