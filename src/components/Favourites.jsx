@@ -55,9 +55,10 @@ function Favourites() {
     }
   }
 
+  let [filtered, setFiltered] = useState(favoriteMovies)
+
   let [searchText, setSearchText] = useState("");
-  let [filtered, setFiltered] = useState(favoriteMovies.filter((movie) => {return movie.title !== undefined ? movie.title.toLowerCase().includes(searchText.toLowerCase()) : movie.name.toLowerCase().includes(searchText.toLowerCase())}))
-  const updateFiltered = (e) => {
+  const updateFilterByText = (e) => {
     setSearchText(e.target.value);
     setSelectedButton("All Genres");
     let f = favoriteMovies.filter((movie) => {return movie.title !== undefined ? movie.title.toLowerCase().includes(e.target.value.toLowerCase()) : movie.name.toLowerCase().includes(e.target.value.toLowerCase())})
@@ -68,7 +69,7 @@ function Favourites() {
   }
 
   let [selectedButton, setSelectedButton] = useState("All Genres");
-  const updateButton = (e) => {
+  const updateFilterByButton = (e) => {
     setSearchText("");
     setSelectedButton(e.target.value);
     let f = e.target.value === "All Genres" ? favoriteMovies : favoriteMovies.filter((movie) => {return movie.genre.toLowerCase() === e.target.value.toLowerCase()});
@@ -80,12 +81,12 @@ function Favourites() {
   return (
     <>
       <div className="m-6 flex justify-center space-x-2">
-        <button className={selectedButton === "All Genres" ? "p-2 bg-red-500 rounded-xl text-white text-xl" : "p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl"} value="All Genres" onClick={updateButton}>All Genres</button>
-        <button className={selectedButton === "Science Fiction" ? "p-2 bg-red-500 rounded-xl text-white text-xl" : "p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl"} value="Science Fiction" onClick={updateButton}>Sci-Fi</button>
-        <button className={selectedButton === "Action" ? "p-2 bg-red-500 rounded-xl text-white text-xl" : "p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl"} value="Action" onClick={updateButton}>Action</button>
-        <button className={selectedButton === "Drama" ? "p-2 bg-red-500 rounded-xl text-white text-xl" : "p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl"} value="Drama" onClick={updateButton}>Drama</button>
-        <button className={selectedButton === "Comedy" ? "p-2 bg-red-500 rounded-xl text-white text-xl" : "p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl"} value="Comedy" onClick={updateButton}>Comedy</button>
-        <button className={selectedButton === "Adventure" ? "p-2 bg-red-500 rounded-xl text-white text-xl" : "p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl"} value="Adventure" onClick={updateButton}>Adventure</button>
+        <button className={selectedButton === "All Genres" ? "p-2 bg-red-500 rounded-xl text-white text-xl" : "p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl"} value="All Genres" onClick={updateFilterByButton}>All Genres</button>
+        <button className={selectedButton === "Science Fiction" ? "p-2 bg-red-500 rounded-xl text-white text-xl" : "p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl"} value="Science Fiction" onClick={updateFilterByButton}>Sci-Fi</button>
+        <button className={selectedButton === "Action" ? "p-2 bg-red-500 rounded-xl text-white text-xl" : "p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl"} value="Action" onClick={updateFilterByButton}>Action</button>
+        <button className={selectedButton === "Drama" ? "p-2 bg-red-500 rounded-xl text-white text-xl" : "p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl"} value="Drama" onClick={updateFilterByButton}>Drama</button>
+        <button className={selectedButton === "Comedy" ? "p-2 bg-red-500 rounded-xl text-white text-xl" : "p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl"} value="Comedy" onClick={updateFilterByButton}>Comedy</button>
+        <button className={selectedButton === "Adventure" ? "p-2 bg-red-500 rounded-xl text-white text-xl" : "p-2 hover:bg-red-500  bg-gray-400 rounded-xl text-white text-xl"} value="Adventure" onClick={updateFilterByButton}>Adventure</button>
       </div>
       <div className="m-6 flex justify-center space-x-2">
         <input
@@ -93,7 +94,7 @@ function Favourites() {
           placeholder="Search..."
           className="border-2 text-center"
           value={searchText}
-          onChange={updateFiltered}
+          onChange={updateFilterByText}
         />
         <input
           type="number"
